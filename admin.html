@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Admin · Chat Comix</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@400;600;800&display=swap');
+:root{--bg:#F7F4FF;--card:#FFFFFF;--ink:#24214A;--soft:#6B6790;--main:#7B5CFF;--pop:#FF8A65;--fresh:#3DD6B5;--sun:#FFD166}
+{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Nunito',system-ui,sans-serif;line-height:1.55}
+h1,h2,h3{font-family:'Baloo 2',cursive;margin:.2em 0;line-height:1.15}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--pop);outline-offset:3px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.top{background:var(--ink);color:#fff}
+.top-in{max-width:1150px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 20px;flex-wrap:wrap}
+.top a{color:#cfc9ff;font-weight:800;text-decoration:none}
+.badge{display:inline-grid;place-items:center;width:38px;height:38px;border-radius:12px;background:var(--main);margin-right:8px;transform:rotate(-8deg)}
+main{max-width:1150px;margin:auto;padding:24px 20px}
+.panel{background:var(--card);border-radius:24px;padding:22px;margin-bottom:20px}
+.login{max-width:400px;margin:60px auto}
+label{display:block;font-weight:800;font-size:.9rem;margin-top:8px}
+input{width:100%;font:inherit;border:2px solid #dcd5ff;border-radius:14px;padding:10px 12px;margin-top:4px}
+input:focus{border-color:var(--main);outline:none}
+.hint{font-size:.85rem;color:var(--soft);font-weight:700}
+.err{color:#C62828;font-weight:800;min-height:1.4em}
+.btn{border:0;border-radius:14px;padding:10px 20px;font-weight:800;min-height:44px}
+.btn-main{background:var(--pop)}
+.btn-line{background:var(--card);border:2px solid #dcd5ff}
+.btns{display:flex;gap:10px;flex-wrap:wrap}
+.head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:16px;margin-bottom:20px}
+.stat{background:var(--card);border-radius:22px;padding:18px;font-weight:700;color:var(--soft)}
+.stat b{display:block;font-family:'Baloo 2';font-size:2.2rem;line-height:1}
+.stat:nth-child(1) b{color:var(--main)}.stat:nth-child(2) b{color:var(--pop)}.stat:nth-child(3) b{color:#1BA98A}.stat:nth-child(4) b{color:#D9A400}.stat:nth-child(5) b{color:var(--ink)}.stat:nth-child(6) b{color:var(--main)}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.barrow{margin:8px 0;font-size:.9rem;font-weight:700}
+.track{height:12px;background:#F0EDFF;border-radius:99px;overflow:hidden;margin-top:3px}
+.fill{height:100%;background:linear-gradient(90deg,var(--main),var(--pop));border-radius:99px}
+.scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.88rem;min-width:820px}
+th{background:var(--ink);color:#fff;text-align:left;padding:10px}
+th:first-child{border-radius:12px 0 0 12px}th:last-child{border-radius:0 12px 12px 0}
+td{padding:9px 10px;border-bottom:1px solid #eee}
+.filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.filters select,.filters input{font:inherit;border:2px solid #dcd5ff;border-radius:12px;padding:6px 10px;width:auto;margin:0}
+.mod{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;background:var(--bg);border-radius:14px;padding:10px 14px;margin-top:10px}
+.mod.hid{opacity:.5}
+.mod .btn{padding:6px 14px;min-height:36px}
+.more{border:0;background:#F0EDFF;border-radius:10px;padding:4px 10px;font-weight:800}
+tr.detail td{background:var(--bg);padding:14px}
+.kv{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:6px 18px;font-size:.85rem}
+.kv b{color:var(--soft);display:block;font-size:.75rem;text-transform:uppercase}
+.kv .wide{grid-column:1/-1;word-break:break-all}
+.vid{font-family:monospace;background:#F0EDFF;border-radius:6px;padding:1px 6px;cursor:pointer;border:0}
+@media (max-width:900px){.stats{grid-template-columns:repeat(2,1fr)}.three{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="top">
+<div class="top-in">
+<h1 style="font-size:1.4rem;margin:0"><span class="badge" aria-hidden="true">🔒</span>Chat Comix Admin</h1>
+<a href="index.html">← Back to site</a>
+</div>
+</header>
+<main>
+<form class="panel login" id="loginBox">
+<h2>Admin login</h2>
+<label for="pw">Password</label>
+<input id="pw" type="password" autocomplete="current-password" aria-describedby="pwHint" autofocus>
+<p class="hint" id="pwHint">Demo password: admin</p>
+<button class="btn btn-main" type="submit">Log in</button>
+<p class="err" id="pwErr" role="alert"></p>
+</form>
+<div id="dash" hidden>
+<div class="head">
+<h2>Dashboard</h2>
+<div class="btns">
+<button class="btn btn-line" id="refreshBtn">↻ Refresh</button>
+<button class="btn btn-line" id="exportBtn">⬇ Export CSV</button>
+<button class="btn btn-line" id="clearBtn">Clear logs</button>
+<button class="btn btn-line" id="logoutBtn">Log out</button>
+</div>
+</div>
+<div class="stats" id="stats"></div>
+<div class="three">
+<div class="panel"><h3>Devices</h3><div id="devBars"></div></div>
+<div class="panel"><h3>Browsers &amp; OS</h3><div id="brBars"></div><div id="osBars"></div></div>
+<div class="panel"><h3>Most viewed strips</h3><div id="topBars"></div></div>
+<div class="panel"><h3>Top locations</h3><div id="locBars"></div></div>
+<div class="panel"><h3>Internet providers</h3><div id="ispBars"></div></div>
+<div class="panel"><h3>Top visitors</h3><div id="visBars"></div></div>
+</div>
+<div class="panel">
+<h3>Reactions per strip</h3>
+<div class="scroll"><table id="reactTable"></table></div>
+</div>
+<div class="panel">
+<h3>Visit log</h3><p class="hint">Tip: click a visitor ID to see everything that visitor did. Click ▸ for full details.</p>
+<div class="filters">
+<label class="sr" for="fDev">Filter by device</label>
+<select id="fDev"><option value="">All devices</option><option>Desktop</option><option>Mobile</option><option>Tablet</option></select>
+<label class="sr" for="fText">Search log</label>
+<input id="fText" placeholder="Search IP, visitor ID, city, page…">
+</div>
+<div class="scroll" tabindex="0" role="region" aria-label="Visit log, scrolls sideways"><table id="logTable"></table></div>
+</div>
+<div class="panel"><h3>Comment moderation</h3><div id="modList"></div></div>
+</div>
+</main>
+<script>
+var PASSWORD = "admin"; // demo only. Use real authentication when you host the site.
+var REACTIONS = ["😂", "😍", "🔥", "😮", "😢"];
+function el(id) { return document.getElementById(id); }
+function load(k, f) { try { return JSON.parse(localStorage.getItem(k)) || f; } catch (e) { return f; } }
+function save(k, v) { localStorage.setItem(k, JSON.stringify(v)); }
+function safe(t) { var d = document.createElement("div"); d.textContent = t == null ? "" : t; return d.innerHTML; }
+function titleOf(id) { var s = load("cx_strips", []).find(function (x) { return x.id == id; }); return s ? s.title : "Strip " + id; }
+el("loginBox").onsubmit = function (e) {
+e.preventDefault();
+if (el("pw").value === PASSWORD) { sessionStorage.setItem("cx_admin", "1"); el("pwErr").textContent = ""; render(); }
+else el("pwErr").textContent = "Wrong password, try again.";
+};
+el("logoutBtn").onclick = function () { sessionStorage.removeItem("cx_admin"); el("pw").value = ""; render(); };
+el("refreshBtn").onclick = render;
+el("clearBtn").onclick = function () { if (confirm("Clear all visit logs?")) { save("cx_log", []); render(); } };
+el("fDev").onchange = drawLog; el("fText").oninput = drawLog;
+el("exportBtn").onclick = function () {
+var cols = FIELDS.map(function (f) { return f[0]; });
+var rows = [FIELDS.map(function (f) { return f[1]; }).join(",")].concat(load("cx_log", []).map(function (x) {
+return cols.map(function (c) { return '"' + String(x[c] || "").replace(/"/g, '""') + '"'; }).join(",");
+}));
+var a = document.createElement("a");
+a.href = URL.createObjectURL(new Blob([rows.join("
+")], { type: "text/csv" }));
+a.download = "chat-comix-visits.csv"; a.click();
+};
+function bars(counts) {
+var keys = Object.keys(counts);
+if (!keys.length) return '<p class="hint">No data yet</p>';
+var max = Math.max.apply(null, keys.map(function (k) { return counts[k]; }));
+return keys.sort(function (a, b) { return counts[b] - counts[a]; }).map(function (k) {
+return '<div class="barrow">' + safe(k) + ' · ' + counts[k] + '<div class="track" aria-hidden="true"><div class="fill" style="width:' + (counts[k] / max * 100) + '%"></div></div></div>';
+}).join("");
+}
+function tally(log, f) { var o = {}; log.forEach(function (x) { o[x[f]] = (o[x[f]] || 0) + 1; }); return o; }
+function render() {
+var ok = sessionStorage.getItem("cx_admin") === "1";
+el("loginBox").hidden = ok; el("dash").hidden = !ok;
+if (!ok) return;
+var log = load("cx_log", []), comments = load("cx_comments", {}), reacts = load("cx_react", {}), views = load("cx_views", {});
+var nC = 0; Object.keys(comments).forEach(function (k) { nC += comments[k].length; });
+var nR = 0; Object.keys(reacts).forEach(function (k) { Object.keys(reacts[k]).forEach(function (e) { nR += reacts[k][e]; }); });
+var mobile = log.filter(function (x) { return x.type === "Mobile"; }).length;
+el("stats").innerHTML = [["Page views", log.length], ["Mobile visits", mobile], ["Comments", nC], ["Reactions", nR], ["Strips", load("cx_strips", []).length], ["Unique visitors", Object.keys(tally(log, "visitorId")).length]]
+.map(function (s) { return '<div class="stat"><b>' + s[1] + '</b>' + s[0] + '</div>'; }).join("");
+el("devBars").innerHTML = bars(tally(log, "type"));
+el("brBars").innerHTML = bars(tally(log, "browser"));
+el("osBars").innerHTML = '<hr style="border:0;border-top:1px solid #eee">' + bars(tally(log, "os"));
+var top = {}; Object.keys(views).forEach(function (id) { top["#" + id + " " + titleOf(id)] = views[id]; });
+el("topBars").innerHTML = bars(top);
+el("locBars").innerHTML = bars(tally(log.filter(function (x) { return x.city || x.country; }).map(function (x) { return { l: [x.city, x.country].filter(Boolean).join(", ") }; }), "l"));
+el("ispBars").innerHTML = bars(tally(log.filter(function (x) { return x.isp; }), "isp"));
+var vis = {}; log.forEach(function (x) { if (!x.visitorId) return; var k = x.visitorId + " · " + (x.ip || "?"); vis[k] = (vis[k] || 0) + 1; });
+var topVis = {}; Object.keys(vis).sort(function (p, q) { return vis[q] - vis[p]; }).slice(0, 8).forEach(function (k) { topVis[k] = vis[k]; });
+el("visBars").innerHTML = bars(topVis);
+var ids = Object.keys(reacts);
+el("reactTable").innerHTML = ids.length
+? '<thead><tr><th scope="col">Strip</th>' + REACTIONS.map(function (e) { return '<th scope="col">' + e + '</th>'; }).join("") + '<th scope="col">Total</th></tr></thead><tbody>' +
+ids.map(function (id) { var r = reacts[id], t = 0; REACTIONS.forEach(function (e) { t += r[e] || 0; });
+return '<tr><td>#' + id + ' ' + safe(titleOf(id)) + '</td>' + REACTIONS.map(function (e) { return '<td>' + (r[e] || 0) + '</td>'; }).join("") + '<td><b>' + t + '</b></td></tr>'; }).join("") + '</tbody>'
+: '<tbody><tr><td class="hint">No reactions yet</td></tr></tbody>';
+drawLog();
+var rows = [];
+Object.keys(comments).forEach(function (sid) {
+comments[sid].forEach(function (c, i) {
+rows.push('<div class="mod' + (c.hidden ? ' hid' : '') + '"><div><strong>#' + sid + ' ' + safe(titleOf(sid)) + ' · ' + safe(c.name) + '</strong> <span class="hint">' + safe(c.when) + (c.hidden ? ' · hidden' : '') + '</span><br>' + safe(c.text) + '</div>' +
+'<div class="btns"><button class="btn btn-line" data-mod="hide" data-s="' + sid + '" data-i="' + i + '">' + (c.hidden ? 'Show' : 'Hide') + '</button>' +
+'<button class="btn btn-line" data-mod="del" data-s="' + sid + '" data-i="' + i + '">Delete</button></div></div>');
+});
+});
+el("modList").innerHTML = rows.join("") || '<p class="hint">No comments yet</p>';
+el("modList").querySelectorAll("[data-mod]").forEach(function (b) {
+b.onclick = function () {
+var all = load("cx_comments", {}), s = b.dataset.s, i = +b.dataset.i;
+if (b.dataset.mod === "del") { if (!confirm("Delete this comment?")) return; all[s].splice(i, 1); }
+else all[s][i].hidden = !all[s][i].hidden;
+save("cx_comments", all); render();
+};
+});
+}
+var FIELDS = [
+["time", "Time"], ["page", "Page"], ["visitorId", "Visitor ID"], ["sessionId", "Session ID"], ["visitNo", "Visit no."], ["firstSeen", "First seen"],
+["ip", "IP address"], ["city", "City"], ["region", "Region"], ["country", "Country"], ["postcode", "Postcode"], ["isp", "ISP / network"],
+["lat", "Latitude"], ["lon", "Longitude"], ["type", "Device"], ["model", "Device model"], ["os", "OS"], ["osVersion", "OS version"],
+["browser", "Browser"], ["browserVersion", "Browser version"], ["screen", "Screen"], ["viewport", "Window size"], ["pixelRatio", "Pixel ratio"],
+["touch", "Touch screen"], ["cores", "CPU cores"], ["memoryGB", "Memory (GB)"], ["network", "Network"], ["lang", "Language"],
+["tz", "Time zone"], ["darkMode", "Dark mode"], ["ref", "Referrer"], ["ua", "User agent"]
+];
+function drawLog() {
+var dev = el("fDev").value, q = el("fText").value.toLowerCase();
+var log = load("cx_log", []).slice().reverse().filter(function (x) {
+return (!dev || x.type === dev) && (!q || JSON.stringify(x).toLowerCase().indexOf(q) > -1);
+});
+var head = ["", "Time", "Visitor", "Visit", "IP address", "Location", "ISP", "Device", "OS", "Browser", "Page"];
+el("logTable").innerHTML = '<caption class="sr">Visitor log</caption><thead><tr>' + head.map(function (h) { return '<th scope="col">' + (h || '<span class="sr">Details</span>') + '</th>'; }).join("") + '</tr></thead><tbody>' +
+(log.slice(0, 300).map(function (x, i) {
+var loc = [x.city, x.region, x.country].filter(Boolean).join(", ");
+var main = '<tr><td><button class="more" data-row="' + i + '" aria-expanded="false" aria-label="Show all details">▸</button></td><td>' +
+[x.time].map(safe) + '</td><td><button class="vid" data-vid="' + safe(x.visitorId) + '" title="Show this visitor only">' + safe(x.visitorId || "—") + '</button></td><td>' +
+[x.visitNo || "", x.ip || "—", loc || "—", x.isp || "—", (x.type || "") + (x.model ? " · " + x.model : ""), (x.os || "") + " " + (x.osVersion || ""), (x.browser || "") + " " + (x.browserVersion || ""), x.page].map(safe).join('</td><td>') + '</td></tr>';
+var detail = '<tr class="detail" id="d' + i + '" hidden><td colspan="11"><div class="kv">' + FIELDS.map(function (f) {
+var val = x[f[0]]; if (val === undefined || val === "") val = "—";
+if (f[0] === "lat" && x.lat) val = '<a href="https://www.bing.com/maps?cp=' + x.lat + '~' + x.lon + '&lvl=11" target="_blank" rel="noopener">' + safe(x.lat) + ' (map)</a>';
+else val = safe(val);
+return '<div' + (f[0] === "ua" ? ' class="wide"' : '') + '><b>' + f[1] + '</b>' + val + '</div>';
+}).join("") + '</div></td></tr>';
+return main + detail;
+}).join("") || '<tr><td colspan="11" class="hint">No visits match</td></tr>') + '</tbody>';
+el("logTable").querySelectorAll("[data-row]").forEach(function (b) {
+b.onclick = function () { var d = el("d" + b.dataset.row), open = d.hidden; d.hidden = !open; b.textContent = open ? "▾" : "▸"; b.setAttribute("aria-expanded", open); };
+});
+el("logTable").querySelectorAll("[data-vid]").forEach(function (b) {
+b.onclick = function () { el("fText").value = b.dataset.vid; drawLog(); };
+});
+}
+render();
+</script>
+</body>
+</html>
